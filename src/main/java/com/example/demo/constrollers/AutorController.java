@@ -27,6 +27,11 @@ import com.example.demo.entities.LivroEntity;
 import com.example.demo.services.AutorService;
 import com.example.demo.services.LivroService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Autor")
 @RestController
 @RequestMapping("/api/autores")
 @CrossOrigin(origins = "*")
@@ -44,36 +49,41 @@ public class AutorController {
 	@Autowired
 	private LivroConvert livroConvert;
 
+	@Operation(summary = "Cadastra autor", description = "Cadastra um no autor na biblioteca")
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public AutorOutput criaAutor(@Valid @RequestBody AutorInput autor) throws URISyntaxException {
+	public AutorOutput criaAutor(@Parameter(description = "Representação de um autor") @Valid @RequestBody AutorInput autor) throws URISyntaxException {
 		AutorEntity autorEntity = autorConvert.inputToEntity(autor);
 		AutorEntity autorCriado = autorService.cria(autorEntity);
 		return autorConvert.entityToOutput(autorCriado);
 	}
 
+	@Operation(summary = "Altera autor", description = "Altera os dados do autor")
 	@PutMapping("/{id}")
-	public AutorOutput alteraAutor(@PathVariable Long id, @Valid @RequestBody AutorInput autorInput) {
+	public AutorOutput alteraAutor(@Parameter(description = "Id do autor", example = "1") @PathVariable Long id, @Parameter(description = "Representação de um autor") @Valid @RequestBody AutorInput autorInput) {
 		AutorEntity autorEntity = autorConvert.inputToEntity(autorInput);
 		autorEntity.setId(id);
 		AutorEntity autorAlterado = autorService.alterar(autorEntity);
 		return autorConvert.entityToOutput(autorAlterado);
 	}
 
+	@Operation(summary = "Busca autor por id", description = "Busca o autor por id")
 	@GetMapping("/{id}")
-	public AutorOutput buscaAutorPorId(@PathVariable Long id) {
+	public AutorOutput buscaAutorPorId(@Parameter(description = "Id do autor", example = "1") @PathVariable Long id) {
 		AutorEntity autorEntity = autorService.buscaPeloId(id);
 		return autorConvert.entityToOutput(autorEntity);
 	}
 
+	@Operation(summary = "Lista todos os autores", description = "Lista todos os autores cadastrados na biblioteca")
 	@GetMapping
 	public List<AutorOutput> listaAutores() {
 		List<AutorEntity> listaTodos = autorService.listaTodos();
 		return autorConvert.entityToOutput(listaTodos);
 	}
 
+	@Operation(summary = "Busca todos os livros vinculados ao autor", description = "Busca todos os livro vinculados ao id do autor")
 	@GetMapping("/{idAutor}/livros")
-	public List<LivroOutput> listaLivros(@PathVariable Long idAutor) {
+	public List<LivroOutput> listaLivros(@Parameter(description = "Id do autor", example = "1") @PathVariable Long idAutor) {
 		List<LivroEntity> listaTodos = livroService.listaLivrosPeloAutor(idAutor);
 		return livroConvert.entityToOutput(listaTodos);
 	}

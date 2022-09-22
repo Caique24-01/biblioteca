@@ -67,7 +67,7 @@ class AutorSelecionarControllerTest {
 		mvc.created("/api/autores", autor2);
 
 		ResultActions resultFind = mvc.find("/api/autores");
-		resultFind.andExpect(jsonPath("$",hasSize(2)));
+		resultFind.andExpect(jsonPath("$", hasSize(2)));
 		resultFind.andExpect(jsonPath("$.[?(@.id == 1)]").exists());
 		resultFind.andExpect(jsonPath("$.[?(@.nome == '" + autor1.getNome() + "')]").exists());
 		resultFind.andExpect(jsonPath("$.[?(@.biografia == '" + autor1.getBiografia() + "')]").exists());

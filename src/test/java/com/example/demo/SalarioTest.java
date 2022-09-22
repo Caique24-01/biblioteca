@@ -18,7 +18,7 @@ public class SalarioTest {
 	void setUp() throws Exception {
 		System.out.println("@BeforeEach");
 	}
-	
+
 	@Test
 	public void testaAumentoSalario1000Para1100() {
 		Salario salario = new Salario();
