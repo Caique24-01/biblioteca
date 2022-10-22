@@ -27,9 +27,12 @@ import com.example.demo.openapi.LivroOpenAPI;
 import com.example.demo.services.AutorService;
 import com.example.demo.services.LivroService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+
 @RestController
 @RequestMapping("/api/livros")
 @CrossOrigin(origins = "*")
+@SecurityRequirements(value= {})
 public class LivroController implements LivroOpenAPI{
 
 	@Autowired

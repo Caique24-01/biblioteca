@@ -28,9 +28,12 @@ import com.example.demo.openapi.AutorOpenAPI;
 import com.example.demo.services.AutorService;
 import com.example.demo.services.LivroService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+
 @RestController
 @RequestMapping("/api/autores")
 @CrossOrigin(origins = "*")
+@SecurityRequirements(value= {})
 public class AutorController implements AutorOpenAPI {
 
 	@Autowired
